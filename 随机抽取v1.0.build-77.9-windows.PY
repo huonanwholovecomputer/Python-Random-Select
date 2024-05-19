@@ -1,4 +1,4 @@
-print("随机抽取[版本号：1.0] 内部版本号[1.0.build-77.9]")
+print("随机抽取[版本号：1.0] 内部版本号[1.0.build-77.9-windows]")
 print("作者：GitHub_huonanwholovecomputer © 不保留任何权利。")
 print("")
 # 随机函数
