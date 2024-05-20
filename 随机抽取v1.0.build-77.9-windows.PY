@@ -1,4 +1,4 @@
-print("随机抽取[版本号：1.0] 内部版本号[1.0.build-77.9-windows]")
+print("随机抽取[版本号：1.0] 内部版本号[1.0.build-77.9.1-windows]")
 print("作者：GitHub_huonanwholovecomputer © 不保留任何权利。")
 print("")
 # 随机函数
@@ -85,8 +85,10 @@ try:
                     file.truncate()
                     recorded_students = set(line.split()[0] for line in file)
         except FileNotFoundError:
-            print(f"文件 {file_name} 未找到。")
+            print("")
+            print(f"文件 {file_name} 不存在，将在抽取时自动创建。")
         except Exception as e:
+            print("")
             print(f"读取文件时出错: {e}")
         print("---------------------------------------------")
         A = input("请输入需要抽取的学生个数：")
