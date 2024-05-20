@@ -1,4 +1,4 @@
-## 项目名称 Python随机抽取（PY单文件）
+## Python随机抽取（PY单文件）
 提供了一个可用的Python随机抽取（PY单文件）
 
 需要注意的是，对于all版本，"**keyboard**"模块不是Python自带的，
