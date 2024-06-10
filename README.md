@@ -11,8 +11,9 @@
 
 更多BUG...啊呸,,更多内容，等你探索！
 
+
+有效命令如下：
 ```
-输入无效，有效命令如下：
 1.输入数字,抽取一定数目的学生
 2.输入“清空记录、清空、qingkong、QINGKONG、qk、QK、C、c、clean、Clean”清空学生记录
 3.输入“添加记录、添加、tianjia、TIANJIA、tj、TJ、tjjl、TJJL”以手动添加学生的抽取记录
