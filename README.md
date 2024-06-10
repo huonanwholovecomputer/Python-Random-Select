@@ -10,3 +10,13 @@
 4.当然，密码也可以随时更改！ 
 
 更多BUG...啊呸,,更多内容，等你探索！
+
+```
+输入无效，有效命令如下：
+1.输入数字,抽取一定数目的学生
+2.输入“清空记录、清空、qingkong、QINGKONG、qk、QK、C、c、clean、Clean”清空学生记录
+3.输入“添加记录、添加、tianjia、TIANJIA、tj、TJ、tjjl、TJJL”以手动添加学生的抽取记录
+4.输入“记录、jilu、JILU、jl、JL、recorded”查看已经记录的学生
+5.输入“修改密码、xgmm、password”以修改密码
+6.输入“修改学生名单、xgxsmd、XGXSMD、xg、XG、list”以修改学生名单
+```
