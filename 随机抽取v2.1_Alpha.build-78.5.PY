@@ -3,14 +3,13 @@ import random
 import time
 import sys
 import msvcrt
-import datetime
 import logging
 import os
 import glob
 from cryptography.fernet import Fernet
 
 # 打印作者信息
-print("随机抽取[版本号：2.0_Alpha] 内部版本号[2.0_Alpha.build-78.1]")
+print("随机抽取[版本号：2.1_Alpha] 内部版本号[2.0_Alpha.build-78.5]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
 
@@ -45,9 +44,11 @@ while true:
                     key_str = int(key_str)
                     if 1 <= key_str <= len(all_students_list_names):
                         select_matching_file_path = matching_files[key_str - 1]
+                        recorded_students_file_num = key_str
+                        recorded_students_file_path = define_recorded_students_file(recorded_students_file_num)# 定义记录文件的位置，调用函数define_recorded_students_file(recorded_students_file_num)
                         print(f"选择了【{key_str}】{all_list_name}")
                         time.sleep(0.5)
-                        return select_matching_file_path
+                        return select_matching_file_path,recorded_students_file_path
                     else:
                         print("选择无效")
                         time.sleep(0.5)
@@ -72,28 +73,6 @@ while true:
                     print(f"\n已将\n\n{current_filename}\n\n重命名为：\n\n{expected_filename}\n")
                     time.sleep(0.25)
                 expected_num += 1
-
-        # def 检查password
-        def check_password():
-            if not os.path.exists(password_path):
-                print("\n咦？奇怪，[password]文件怎么突然在本次程序运行的时候不见了?")
-                time.sleep(1)
-                with open(password, "wb") as password_file:
-                    password_file.write(password)
-                print("\n还好还好，本程序成功地重新创建了[password]文件，并成功写入了本次程序在运行时读取到程序缓存的[password]数据")
-                time.sleep(1)
-            else:
-                with open(password_path, "rb") as encrypted_file:
-                    encrypted_data = encrypted_file.read()
-                decrypted_data = fernet.decrypt(encrypted_data)
-                check_password = decrypted_data.decode()
-                if check_password != password:
-                    print("\n什么？！[password]居然在本次程序运行的时候被篡改了，这怎么行。")
-                    with open(password_path, "wb") as password_file:
-                        password_file.write(password)
-                    time.sleep(0.75)
-                    print("\n已修复[password]文件。")
-                    time.sleep(1)
 
         def check_Fernet_key():
             if not os.path.exists(Fernet_key_path):
@@ -255,15 +234,15 @@ while true:
                         break
 
         # def 定义函数write_recorded_students
-        def write_recorded_students(selection_students, now):
+        def write_recorded_students(selection_students):
             if os.path.exists(recorded_students_file_path):
                 with open(recorded_students_file_path, "rb") as data_file:
                     encrypted_data = data_file.read()
                 decrypted_data = fernet.decrypt(encrypted_data).decode()
             else:
                 decrypted_data = ""
-            selection_students_and_now = " ".join(selection_students) + " - " + now.strftime("%Y-%m-%d %H:%M:%S") + "\n"
-            decrypted_data += selection_students_and_now
+            selection_students = selection_students.strip()
+            decrypted_data += selection_students + " "
             encrypted_data = fernet.encrypt(decrypted_data.encode())
             with open(recorded_students_file_path, "wb") as data_file:
                 data_file.write(encrypted_data)
@@ -274,10 +253,7 @@ while true:
                 with open(recorded_students_file_path, "rb") as data_file:
                     encrypted_data = data_file.read()
                 decrypted_data = fernet.decrypt(encrypted_data).decode()
-                recorded_students = []
-                for line in decrypted_data.strip().split("\n"):
-                    students_part = line.split(" - ")[0]
-                    recorded_students.extend(students_part.split(" "))
+                recorded_students = decrypted_data.strip().split(" ")  # 以空格分割学生名字
                 return recorded_students
             return []
 
@@ -401,9 +377,6 @@ while true:
         password = decrypted_data.decode()
         # 调用函数for_matching_files_data(matching_files)
         all_students_list_names, all_students_lists = for_matching_files_data(matching_files)
-
-        # 调用函数check_list_num()
-        check_list_num()
         
         print(f"找到的学生名单个数：{len(matching_files)}个")
         if len(matching_files) == 1:
@@ -431,7 +404,6 @@ while true:
                     key_str = int(key_str)
                     if 1 <= key_str <= len(all_students_list_names):
                         print(f"选择了学生名单【{key_str}】{all_students_list_names[key_str - 1]}")
-                        print(f"\n学生：{all_students_lists[key_str - 1]}")
                         students_list = all_students_lists[key_str - 1]
                         recorded_students_file_num = key_str
                         recorded_students_file_path = define_recorded_students_file(recorded_students_file_num)  # 调用函数define_recorded_students_file(recorded_students_file_num)
@@ -444,7 +416,6 @@ while true:
                 time.sleep(1)
         while true:
             check_Fernet_key()# 检查Fernet_key，调用函数check_Fernet_key()
-            check_password()# 检查密码password，调用函数check_password()
             students = students_list
             if os.path.exists(recorded_students_file_path):
                 recorded_students = read_recorded_students()# 调用函数read_recorded_students()
@@ -473,12 +444,12 @@ while true:
                             random.shuffle(students)
                         selection_student = random.choice(students)
                         selection_students.append(selection_student)
-                        now = datetime.datetime.now()
-                        write_recorded_students(selection_students, now)# 写入记录的学生,调用函数write_recorded_students(selection_students, now)
+                        write_recorded_students(selection_student)# 写入记录的学生,调用函数write_recorded_students(selection_students)
                         recorded_students = read_recorded_students()# 调用函数read_recorded_students()
                         students = [student for student in students if student not in recorded_students]
                     time.sleep(0.1)
                     print(f"\n最终的抽取结果：【{selection_students}】")
+                    print(f"\n记录的学生：【{recorded_students}】")
                     time.sleep(0.5)
                     
             elif A in ["清空记录", "清空", "qingkong", "QINGKONG", "qk", "QK", "C", "c", "clean", "Clean"]:
@@ -490,6 +461,7 @@ while true:
                     print("\n记录为空，不需要删除。")
                 time.sleep(0.5)
             elif A in ["添加记录", "添加", "tianjia", "TIANJIA", "tj", "TJ", "tjjl", "TJJL"]:
+                recorded_students = read_recorded_students()  # 调用函数read_recorded_students()
                 with open(password_path, "rb") as encrypted_file:
                     encrypted_data = encrypted_file.read()
                 password_data = fernet.decrypt(encrypted_data)
@@ -501,7 +473,13 @@ while true:
                     add_recorded_students = input("\n添加一个或多个学生到记录中，以排除抽取...\nTip:若需要输入多个学生，则需要使用“、”分割开\n\n请输入需要添加的学生名字：")
                     add_recorded_students_list = [student.strip() for student in add_recorded_students.split("、")]
                     all_students_valid = True
+                    add_students = []
                     for student in add_recorded_students_list:
+                        if student in add_students:
+                            print(f"\n嗯？您貌似重复输入了[{student}]这个学生？请不要输入重复的学生。")
+                            all_students_valid = False
+                            break
+                        add_students.append(student)
                         if student not in students_list:
                             print(f"\n嗯？您输入的[{student}]貌似不在您的学生名单中啊。")
                             all_students_valid = False
@@ -511,14 +489,14 @@ while true:
                             all_students_valid = False
                             break
                     if all_students_valid:
-                        now = datetime.datetime.now()
-                        write_recorded_students(add_recorded_students_list, now)  # 写入记录的学生,调用函数write_recorded_students(selection_students, now)
-                        recorded_students = read_recorded_students()  # 调用函数read_recorded_students()
+                        # 将学生列表转换为一个字符串，每个学生用空格分隔
+                        students_str = " ".join(add_recorded_students_list)
+                        write_recorded_students(students_str)# 写入记录的学生, 调用函数write_recorded_students(selection_students)
+                        recorded_students = read_recorded_students()# 调用函数read_recorded_students()
                         print("\n记录添加成功！")
                         time.sleep(1)
                 else:
                     print("× 密码错误。")
-
             elif A in ["记录", "jilu", "JILU", "jl", "JL", "recorded"]:
                 recorded_students = read_recorded_students()# 调用函数read_recorded_students()
                 if recorded_students:
@@ -528,7 +506,7 @@ while true:
                     time.sleep(0.1)
                     print("\n还有",len(students_list),"-",len(recorded_students),"=",len(students_list)-len(recorded_students),"名学生未被抽取")
                     time.sleep(0.25)
-                    print("\n本次抽取默认会跳过这些已经记录的学生，输入“C”或“c”可清除[file_name]中的学生抽取记录")
+                    print("\n本次抽取默认会跳过这些已经记录的学生，输入“C”或“c”可清空学生抽取记录")
                 if not recorded_students:
                     time.sleep(0.25)
                     print("\n没有学生的抽取记录，本次抽取将不会去除任何学生")
@@ -582,7 +560,7 @@ while true:
                                     if len(matching_files) != 0:
                                         print("选择了【1】修改学生名单内容")
                                         time.sleep(0.5)
-                                        select_matching_file_path = select_list()# 调用函数select_list()
+                                        select_matching_file_path = select_list()[0]# 调用函数select_list()
                                         decrypted_data = decrypt_data(select_matching_file_path)# 调用函数decrypt_data()解密数据
                                         txt_name = decrypted_data[0] + ".txt"
                                         txt_path = os.path.join(desktop_path, txt_name)
@@ -636,13 +614,17 @@ while true:
                                                 break
                                     else:
                                         print("\n哎呀，没有名单可以修改或导出呢。")
+                                        time.sleep(1)
                                 elif key_str == 2:
                                     print("选择了【2】删除学生名单")
                                     if len(matching_files) != 0:
-                                        select_matching_file_path = select_list()# 调用函数select_list()
+                                        select_matching_file_path, recorded_students_file_path = select_list()# 调用函数select_list()
                                         os.remove(select_matching_file_path)
                                         time.sleep(0.25)
                                         print(f"\n成功删除了文件[{select_matching_file_path}]")
+                                        if os.path.exists(recorded_students_file_path):
+                                            os.remove(recorded_students_file_path)
+                                            print(f"\n成功删除了记录文件[{recorded_students_file_path}]")
                                         check_list_num()# 调用函数check_list_num()
                                         matching_files = glob.glob(list_pattern)
                                         all_students_list_names, all_students_lists = for_matching_files_data(matching_files)# 刷新matching_files数据
@@ -680,8 +662,8 @@ while true:
                 time.sleep(0.75)
                 print("1.输入数字,抽取一定数目的学生\n2.输入“清空记录、清空、qingkong、QINGKONG、qk、QK、C、c、clean、Clean”清空学生记录\n3.输入“添加记录、添加、tianjia、TIANJIA、tj、TJ、tjjl、TJJL”以手动添加学生的抽取记录\n4.输入“记录、jilu、JILU、jl、JL、recorded”查看已经记录的学生\n5.输入“修改密码、xgmm、password”以修改密码\n6.输入“修改学生名单、xgxsmd、XGXSMD、xg、XG、list”以修改学生名单")
     except BaseException as e:
-        logging.exception(f"发生了一个错误: %s{e}\n**************************************************")
-        sentence = f"\n**************************************************\n\n× 程序出现异常，这是错误信息：\n\n{e}\n\n**************************************************\n\n"
+        logging.exception(f"发生了一个错误: %s{e}\n")
+        sentence = f"\n**************************************************\n\n× 程序出现异常，这是错误信息：\n\n{e}\n\n若要查看详细信息，请前往桌面错误日志\n**************************************************\n\n"
         for char in sentence:
             print(char, end="")
             sys.stdout.flush()
