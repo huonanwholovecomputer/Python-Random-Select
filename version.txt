@@ -1,7 +1,7 @@
 VSVersionInfo(
   ffi=FixedFileInfo(
-    filevers=(2, 1, 78, 5),
-    prodvers=(2, 1, 78, 5),
+    filevers=(2, 1, 78, 6),
+    prodvers=(2, 1, 78, 6),
     mask=0x3f,
     flags=0x0,
     OS=0x40004,
@@ -16,12 +16,12 @@ VSVersionInfo(
         [
           StringStruct('CompanyName', '© GitHub_huonanwholovecomputer'),
           StringStruct('FileDescription', '一个简单的随机抽取程序'),
-          StringStruct('FileVersion', '2.1.78.5'),
+          StringStruct('FileVersion', '2.1.78.6'),
           StringStruct('InternalName', 'Python-Random-Select'),
           StringStruct('LegalCopyright', '© GitHub_huonanwholovecomputer'),
           StringStruct('OriginalFilename', '随机抽取v2.1.exe'),
           StringStruct('ProductName', '随机抽取'),
-          StringStruct('ProductVersion', '2.1.78.5')
+          StringStruct('ProductVersion', '2.1.78.6')
         ]
       )
     ]),
