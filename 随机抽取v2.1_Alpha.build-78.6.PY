@@ -9,7 +9,7 @@ import glob
 from cryptography.fernet import Fernet
 
 # 打印作者信息
-print("随机抽取[版本号：2.1_Alpha] 内部版本号[2.0_Alpha.build-78.5]")
+print("随机抽取[版本号：2.1_Alpha] 内部版本号[2.0_Alpha.build-78.6]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
 
@@ -385,7 +385,6 @@ while true:
             time.sleep(0.25)
             print(f"\n学生名单名称：[{all_students_list_names[0]}]")
             time.sleep(0.25)
-            print(f"\n学生：{all_students_lists[0]}")
             students_list = all_students_lists[0]
             recorded_students_file_num = 1
             recorded_students_file_path = define_recorded_students_file(recorded_students_file_num)  # 调用函数define_recorded_students_file(recorded_students_file_num)
@@ -449,7 +448,6 @@ while true:
                         students = [student for student in students if student not in recorded_students]
                     time.sleep(0.1)
                     print(f"\n最终的抽取结果：【{selection_students}】")
-                    print(f"\n记录的学生：【{recorded_students}】")
                     time.sleep(0.5)
                     
             elif A in ["清空记录", "清空", "qingkong", "QINGKONG", "qk", "QK", "C", "c", "clean", "Clean"]:
