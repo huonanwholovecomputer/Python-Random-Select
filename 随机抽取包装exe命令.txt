@@ -2,4 +2,4 @@ color a
 
 cd C:/Users/Administrator/Desktop/随机抽取项目
 
-pyinstaller  --onefile --version-file version.txt --icon="C:/Users/Administrator/Desktop/随机抽取项目/随机抽取.ico" C:/Users/Administrator/Desktop/随机抽取项目/随机抽取v2.1_Alpha.build-78.5.PY
+pyinstaller  --onefile --version-file version.txt --icon="C:/Users/Administrator/Desktop/随机抽取项目/随机抽取.ico" C:/Users/Administrator/Desktop/随机抽取项目/随机抽取v2.1_Alpha.build-78.6.PY
