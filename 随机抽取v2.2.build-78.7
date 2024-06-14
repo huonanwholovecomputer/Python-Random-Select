@@ -6,17 +6,13 @@ import msvcrt
 import logging
 import os
 import glob
+import getpass
 from cryptography.fernet import Fernet
 
 # 打印作者信息
-print("随机抽取[版本号：2.1_Alpha] 内部版本号[2.0_Alpha.build-78.6]")
+print("随机抽取[版本号：2.2] 内部版本号[2.2.build-78.7]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
-
-desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-log_file_path = os.path.join(desktop_path, "随机抽取_错误日志.log")
-logging.basicConfig(filename=log_file_path, level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
-sys.stderr = open(log_file_path, "a")
 
 # true变量赋值True
 true = True
@@ -55,6 +51,11 @@ while true:
                 else:
                     print("输入无效")
                     time.sleep(0.5)
+        # def 加载错误日志setup_logging():
+        def setup_logging():
+            log_file_path = os.path.join(desktop_path, "随机抽取_错误日志.log")
+            logging.basicConfig(filename=log_file_path, level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+            sys.stderr = open(log_file_path, "a")
 
         # def 检测名单文件名是否按照顺序排列，并在必要时进行矫正，check_list_num()
         def check_list_num():
@@ -284,6 +285,7 @@ while true:
         matching_files = glob.glob(list_pattern)
     
         # 定义环境变量、文件路径
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
         desktop_input_file_name = "请在这里输入学生名单.txt"
         desktop_input_file_path = os.path.join(desktop_path, desktop_input_file_name)
         Fernet_key_name = "Fernet_key.dll"
@@ -436,11 +438,9 @@ while true:
                 else:
                     selection_students = []
                     cycle_count = 0
-                    random.shuffle(students)
                     while cycle_count < A:
+                        random.shuffle(students)
                         cycle_count += 1
-                        if cycle_count % 3 == 0:
-                            random.shuffle(students)
                         selection_student = random.choice(students)
                         selection_students.append(selection_student)
                         write_recorded_students(selection_student)# 写入记录的学生,调用函数write_recorded_students(selection_students)
@@ -451,20 +451,30 @@ while true:
                     time.sleep(0.5)
                     
             elif A in ["清空记录", "清空", "qingkong", "QINGKONG", "qk", "QK", "C", "c", "clean", "Clean"]:
-                students = students_list
-                if os.path.exists(recorded_students_file_path):
-                    os.remove(recorded_students_file_path)
-                    print(f"\n已清空记录！")
+                with open(password_path, "rb") as encrypted_file:
+                    encrypted_data = encrypted_file.read()
+                password_data = fernet.decrypt(encrypted_data)
+                password = password_data.decode()
+                check_password = getpass.getpass("\n请输入密码以核实您的身份：")
+                if check_password == password:
+                    print("√ 密码正确！")                    
+                    time.sleep(0.75)
+                    students = students_list
+                    if os.path.exists(recorded_students_file_path):
+                        os.remove(recorded_students_file_path)
+                        print(f"\n已清空记录！")
+                    else:
+                        print("\n记录为空，不需要删除。")
+                    time.sleep(0.5)
                 else:
-                    print("\n记录为空，不需要删除。")
-                time.sleep(0.5)
+                    print("× 密码错误。")                    
             elif A in ["添加记录", "添加", "tianjia", "TIANJIA", "tj", "TJ", "tjjl", "TJJL"]:
                 recorded_students = read_recorded_students()  # 调用函数read_recorded_students()
                 with open(password_path, "rb") as encrypted_file:
                     encrypted_data = encrypted_file.read()
                 password_data = fernet.decrypt(encrypted_data)
                 password = password_data.decode()
-                check_password = input("\n请输入密码以核实您的身份：")
+                check_password = getpass.getpass("\n请输入密码以核实您的身份：")
                 if check_password == password:
                     print("√ 密码正确！")
                     time.sleep(0.75)
@@ -515,7 +525,7 @@ while true:
                     encrypted_data = encrypted_file.read()
                 password_data = fernet.decrypt(encrypted_data)
                 password = password_data.decode()
-                check_password = input("\n请输入您之前创建的密码：")
+                check_password = getpass.getpass("\n请输入密码以核实您的身份：")
                 if check_password == password:
                     print("\n√ 密码正确！")
                     while true:
@@ -541,7 +551,7 @@ while true:
                 error_count = 0
                 while true:
                     break_flag = False
-                    check_password = input("\n请输入密码以核实您的身份：")
+                    check_password = getpass.getpass("\n请输入密码以核实您的身份：")
                     if check_password == password:
                         print("√ 密码正确！")
                         while true:
@@ -660,6 +670,7 @@ while true:
                 time.sleep(0.75)
                 print("1.输入数字,抽取一定数目的学生\n2.输入“清空记录、清空、qingkong、QINGKONG、qk、QK、C、c、clean、Clean”清空学生记录\n3.输入“添加记录、添加、tianjia、TIANJIA、tj、TJ、tjjl、TJJL”以手动添加学生的抽取记录\n4.输入“记录、jilu、JILU、jl、JL、recorded”查看已经记录的学生\n5.输入“修改密码、xgmm、password”以修改密码\n6.输入“修改学生名单、xgxsmd、XGXSMD、xg、XG、list”以修改学生名单")
     except BaseException as e:
+        setup_logging()
         logging.exception(f"发生了一个错误: %s{e}\n")
         sentence = f"\n**************************************************\n\n× 程序出现异常，这是错误信息：\n\n{e}\n\n若要查看详细信息，请前往桌面错误日志\n**************************************************\n\n"
         for char in sentence:
