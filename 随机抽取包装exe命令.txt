@@ -1,5 +1,5 @@
 color a
 
-cd C:/Users/Administrator/Desktop/随机抽取项目
+cd C:/Users/Administrator/Desktop/
 
-pyinstaller  --onefile --version-file file_version_info.txt --icon="C:/Users/Administrator/Desktop/随机抽取项目/随机抽取.ico" C:/Users/Administrator/Desktop/随机抽取项目/随机抽取v2.2.build-78.7.PY
+pyinstaller --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.3.build-79.3.PY
