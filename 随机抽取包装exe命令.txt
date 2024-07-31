@@ -1,5 +1,22 @@
+便捷版：
+
+```cmd
 color a
 
 cd C:/Users/Administrator/Desktop/
 
 pyinstaller --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.3.build-79.3.PY
+
+```
+
+
+单文件版：
+
+```cmd
+color a
+
+cd C:/Users/Administrator/Desktop/
+
+pyinstaller --onefile --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.3.build-79.3.PY
+
+```
