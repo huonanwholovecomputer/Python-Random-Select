@@ -1,16 +1,16 @@
 # 导入需要的模块
-import random
-import time
-import sys
-import msvcrt
-import logging
-import os
-import glob
-import getpass
-from cryptography.fernet import Fernet
+import os  # 导入操作系统交互模块
+import sys  # 导入系统级参数和功能模块
+import time  # 导入时间相关功能模块
+import glob  # 导入文件路径匹配模块
+import random  # 导入随机数生成模块
+import msvcrt  # 导入控制台输入输出模块（仅适用于Windows系统）
+import logging  # 导入日志记录模块
+import getpass # 导入安全获取密码输入模块
+from cryptography.fernet import Fernet  # 导入对称加密功能模块
 
 # 打印作者信息
-print("随机抽取[版本号：2.3] 内部版本号[2.3.build-79.3]")
+print("随机抽取[版本号：2.4] 内部版本号[2.4.build-79.5]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
 
@@ -479,10 +479,29 @@ while true:
                 add_students = [student for student in add_students if student not in recorded_add_students]
                 students = [student for student in students if student not in add_students]  # 剔除已经预约的学生
             if len(students) == 0:
-                print("\n名单中的学生已空，已初始化学生名单并清空抽取记录。")
-                students = students_list
-                recorded_students = []
-                os.remove(recorded_students_file_path)
+                print("\n名单中的学生已空，请输入密码，初始化程序中的学生名单，并清空之前的抽取记录。")
+                with open(password_path, "rb") as encrypted_file:
+                    encrypted_data = encrypted_file.read()
+                password_data = fernet.decrypt(encrypted_data)
+                password = password_data.decode()
+                error_count = 0
+                while true:
+                    check_password = getpass.getpass("\n请输入密码以核实您的身份：")
+                    if check_password == password:
+                        print("√ 密码正确！")
+                        time.sleep(0.75)
+                        students = students_list
+                        recorded_students = []
+                        os.remove(recorded_students_file_path)
+                        print("\n√ 初始化学生名单、清空抽取记录成功")
+                        break
+                    else:
+                        print("× 密码错误")
+                        error_count += 1
+                        if error_count %5 == 0:
+                            time.sleep(0.5)
+                            print(f"\n您已经输错{error_count}次密码了...")
+                        time.sleep(0.25)
             A = input("————————————————————————————————————————\n请输入需要抽取的学生个数或命令：")
             # 抽取
             if A.isdigit():
