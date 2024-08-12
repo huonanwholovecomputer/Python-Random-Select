@@ -10,7 +10,7 @@ import getpass # 导入安全获取密码输入模块
 from cryptography.fernet import Fernet  # 导入对称加密功能模块
 
 # 打印作者信息
-print("随机抽取[版本号：2.4] 内部版本号[2.4.build-79.5]")
+print("随机抽取[版本号：2.4.1] 内部版本号[2.4.1.build-79.6]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
 
