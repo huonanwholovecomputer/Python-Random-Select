@@ -10,7 +10,7 @@ import getpass # 导入安全获取密码输入模块
 from cryptography.fernet import Fernet  # 导入对称加密功能模块
 
 # 打印作者信息
-print("随机抽取[版本号：2.4.1] 内部版本号[2.4.1.build-79.6]")
+print("随机抽取[版本号：2.5] 内部版本号[2.5.build-79.7]")
 print("作者：© GitHub_huonanwholovecomputer 不保留任何权利。")
 print("")
 
@@ -25,7 +25,7 @@ global matching_files
 while true:
     #尝试
     try:
-        # def 选择名单，select_list()
+        # def 选择名单select_list()
         def select_list():
             while true:
                 print("——————————————————————————————\n请选择需要操作的学生名单：")
@@ -42,7 +42,7 @@ while true:
                         select_matching_file_path = matching_files[key_str - 1]
                         recorded_students_file_num = key_str
                         recorded_students_file_path = define_recorded_students_file(recorded_students_file_num)# 定义记录文件的位置，调用函数define_recorded_students_file(recorded_students_file_num)
-                        print(f"选择了【{key_str}】{all_list_name}")
+                        print(f"选择了【{key_str}】{all_students_list_names[key_str - 1]}")
                         time.sleep(0.5)
                         return select_matching_file_path,recorded_students_file_path
                     else:
@@ -51,6 +51,7 @@ while true:
                 else:
                     print("输入无效")
                     time.sleep(0.5)
+
         # def 加载错误日志setup_logging():
         def setup_logging():
             log_file_path = os.path.join(desktop_path, "随机抽取_错误日志.log")
