@@ -5,7 +5,7 @@ color a
 
 cd C:/Users/Administrator/Desktop/
 
-pyinstaller --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.4.1.build-79.6.PY
+pyinstaller --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.5.build-79.7.PY
 
 ```
 
@@ -17,6 +17,6 @@ color a
 
 cd C:/Users/Administrator/Desktop/
 
-pyinstaller --onefile --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.4.1.build-79.6.PY
+pyinstaller --onefile --version-file file_version_info.txt --icon=随机抽取.ico 随机抽取v2.5.build-79.7.PY
 
 ```
